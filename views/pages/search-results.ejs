@@ -3,7 +3,12 @@
   <div class="ui link cards">
     <% bookresult.forEach(function(book) { %>
           <div class="card">
-            <a id="<%= book.best_book.id._ %>" href="/book">
+            <div class="image">
+              <a id="<%= book.best_book.id._ %>" href="/book">
+            </div>
+            <div class="content">
+              <%= book.best_book.title %>
+            </div>
                 <img class="book-result" src="<%= book.best_book.image_url %>">
             </a>
         </div>
