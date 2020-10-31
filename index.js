@@ -85,6 +85,7 @@ app.get('/owned-books', function (req, res) {
         page: 1
     });
     usersbooks.then(function (result) {
+      console.log(result);
       var userbooklist = result.owned_books.owned_book;
       res.render("pages/owned-books", {
       userbooklist: userbooklist
@@ -93,6 +94,21 @@ app.get('/owned-books', function (req, res) {
         console.log("Goodreads Get Owned Books Rejected");
     });
 });
+
+//get user Info
+app.get("/user-info", function(req,res){
+  let userid = req.flash("userid")
+
+  var userinfo = gr.getUserInfo({
+    userID: userid,
+    page:1
+  })
+  userinfo.then(function(result){
+    console.log(result);
+  }).catch(function() {
+    console.log("user info error");
+  })
+})
 
 
 
