@@ -1,0 +1,12 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+<main>
+      <h2>Your Owned Books</h2>
+        <% for(var i=0; i < userbooklist.length; i++) { %>
+          <a id="<%= userbooklist[i].book.id._ %>" href="/book">
+              <p><%= userbooklist[i].book.title %></p>
+          <% } %>
+          </a>
+  </main>
+
+        <%- include('../partials/footer') %>

@@ -3,14 +3,23 @@ const ejs = require('ejs');
 require('dotenv').config();
 const bodyParser = require('body-parser');
 const goodreads = require('goodreads-api-node');
-const app = express();
+var flash = require('connect-flash');
+var session = require('express-session');
+
+const app = require("https-localhost")();
 
 // Goodreads API - NodeJS
 const myCredentials = {
     key: process.env.GOODREADS_KEY,
     secret: process.env.GOODREADS_SECRET
 };
+
+const callbackURL = "https://localhost:8080/goodreads"
 const gr = goodreads(myCredentials);
+
+
+gr.initOAuth(callbackURL);
+app.use(flash())
 
 // Initialising Express
 app.use(express.static('public'));
@@ -22,11 +31,70 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+app.use(session({ cookie: { maxAge: 60000 },
+                  secret: 'woot',
+                  resave: false,
+                  saveUninitialized: false}));
+
 app.use(bodyParser.json());
 
 app.get("/", function(req,res) {
   res.render("index")
 })
+
+app.get("/authenticate", function (req, res) {
+    gr.getRequestToken()
+        .then(url => {
+          console.log(url);
+            res.redirect(url);
+        }).catch(function () {
+            console.log("Goodreads Authentication Rejected");
+        });
+});
+
+app.get("/goodreads", function (req, res) {
+    gr.getAccessToken()
+        .then(url => {
+            var userinfo = gr.getCurrentUserInfo();
+            userinfo.then(function (result) {
+              req.flash("userid", result.user.id)
+              res.redirect("/");
+            });
+        }).catch(function () {
+            console.log("Goodreads User Info Rejected");
+        });
+});
+
+
+app.get('/shelves', function (req, res) {
+    let userid= req.flash("userid")
+    var usersshelves = gr.getUsersShelves(userid);
+    usersshelves.then(function (result) {
+        var usershelf = result.user_shelf;
+    }).catch(function () {
+        console.log("Goodreads Get Shelves Rejected");
+        console.log(result);
+    });
+});
+
+app.get('/owned-books', function (req, res) {
+  let userid= req.flash("userid")
+
+    var usersbooks = gr.getOwnedBooks({
+        userID: userid,
+        page: 1
+    });
+    usersbooks.then(function (result) {
+      var userbooklist = result.owned_books.owned_book;
+      res.render("pages/owned-books", {
+      userbooklist: userbooklist
+      })
+    }).catch(function () {
+        console.log("Goodreads Get Owned Books Rejected");
+    });
+});
+
+
 
 // Search Route
 app.post('/search', function (req, res) {
@@ -48,6 +116,7 @@ app.post('/search', function (req, res) {
 });
 
 
+
 // Single Book Route
 app.get('/book', function (req, res) {
     var bookid = gr.showBook(req.query.id);
@@ -63,5 +132,5 @@ app.get('/book', function (req, res) {
 });
 
 
-app.listen(3000);
-console.log('Listening on 3000');
+app.listen(8080);
+console.log('Listening on 8080');
