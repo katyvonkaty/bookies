@@ -66,6 +66,8 @@ app.get("/goodreads", function (req, res) {
 });
 
 
+
+
 app.get('/shelves', function (req, res) {
     let userid= req.flash("userid")
     var usersshelves = gr.getUsersShelves(userid);
@@ -96,15 +98,15 @@ app.get('/owned-books', function (req, res) {
 });
 
 //get user Info
-app.get("/user-info", function(req,res){
+app.get("/user-following", function(req,res){
   let userid = req.flash("userid")
 
-  var userinfo = gr.getUserInfo({
-    userID: userid,
-    page:1
-  })
+  var userinfo = gr.getUserFollowings(userid)
   userinfo.then(function(result){
-    console.log(result);
+    let followers = result.following.user;
+    res.render("pages/user-following", {
+      followers: followers
+    });
   }).catch(function() {
     console.log("user info error");
   })

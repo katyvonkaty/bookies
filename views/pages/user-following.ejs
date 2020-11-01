@@ -1,0 +1,12 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+<main>
+      <h2>Your Users Following </h2>
+        <% for(var i=0; i < followers.length; i++) { %>
+          <a id="<%= followers[i].id %>" href="/book">
+              <p><%= followers[i].name %></p>
+          <% } %>
+          </a>
+  </main>
+
+        <%- include('../partials/footer') %>
