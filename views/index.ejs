@@ -1,36 +1,28 @@
 <%- include('partials/header') %>
+<%- include('partials/navbar') %>
 
-<div class="ui left fixed vertical menu">
-  <div class="item">
-    <div class="ui transparent icon input">
-      <form action="/search" method="post">
-        <input type="text" name="book" value="" placeholder="Book Title or Author">
-            <i class="search icon"></i>
-        <input type="submit">
 
-      </form>
-    </div>
-  </div>
+<!-- <div class="ui left fixed vertical menu">
+
   <div class="item">
     <img class="ui mini image" src="/images/logo.png">
   </div>
   <a class="item">Features</a>
   <a class="item">Testimonials</a>
   <a class="item">Sign-in</a>
-</div>
+</div> -->
 
 
-<div class= "ui container">
-  <div class="ui grid">
-    <div class="twelve wide stretched column">
-      <div class="ui segment">
-        This is an stretched grid column. This segment will always match the tab height
-      </div>
-    </div>
+<div class="item">
+  <div class="ui transparent icon input">
+    <form action="/search" method="post">
+      <input type="text" name="book" value="" placeholder="Book Title or Author">
+          <i class="search icon"></i>
+      <input type="submit">
+
+    </form>
   </div>
 </div>
-
-
 
 
   <%- include('partials/footer') %>

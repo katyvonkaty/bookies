@@ -1,6 +1,18 @@
 <%- include('../partials/header') %>
 <%- include('../partials/navbar') %>
-  <div class="ui link cards right-side">
+
+<div class="item">
+  <div class="ui transparent icon input">
+    <form action="/search" method="post">
+      <input type="text" name="book" value="" placeholder="Book Title or Author">
+          <i class="search icon"></i>
+      <input type="submit">
+
+    </form>
+  </div>
+</div>
+
+  <div class="ui link cards">
     <% bookresult.forEach(function(book) { %>
           <div class="card">
             <div class="image">

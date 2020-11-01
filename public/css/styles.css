@@ -1,4 +1,4 @@
-.ui.cards {
+/* .ui.cards {
   width:80%;
   float:right;
   margin-top:40px !important;
@@ -9,9 +9,18 @@
   float:right;
   margin-top:20px !important;
 
-}
+} */
 
 .ui.menu .item>.input input {
+  font-size: 1em;
+border: none !important;
+line: 1px solid #eee;
+border-radius: 10px;
+padding-top: 0.571429em;
+padding-bottom: .57142857em;
+}
+
+.ui.input {
   font-size: 1em;
 border: none !important;
 line: 1px solid #eee;
